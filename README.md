@@ -1,14 +1,16 @@
 # Job Application Tracker
 
-A web-based Job Application Tracker built with **Python, Flask, SQLite, HTML, and CSS** to help users organize and manage their job applications from a single dashboard.
+A web-based Job Application Tracker built with Python, Flask, SQLite, HTML, and CSS, featuring CRUD operations for managing job applications through a simple web interface.
 
 ## Screenshots
 
 ### Dashboard
-![Dashboard](C:\Users\Akash Gowda\Pictures.png)
+
+![Dashboard](screenshots/dashboard.png)
 
 ### Application Details
-![Application Details](C:\Users\Akash Gowda\Pictures\WPS PNG Picture file.png)
+
+![Application Details](screenshots/application-details.png)
 
 ## Features
 
