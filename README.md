@@ -2,6 +2,14 @@
 
 A web-based Job Application Tracker built with **Python, Flask, SQLite, HTML, and CSS** to help users organize and manage their job applications from a single dashboard.
 
+## Screenshots
+
+### Dashboard
+![Dashboard](C:\Users\Akash Gowda\Pictures.png)
+
+### Application Details
+![Application Details](C:\Users\Akash Gowda\Pictures\WPS PNG Picture file.png)
+
 ## Features
 
 * Add new job applications
@@ -71,7 +79,7 @@ Users can delete an application from the application details page.
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR-GITHUB-REPOSITORY-URL>
+git clone https://github.com/AkashGowda-R/Job-Application-Tracker.git
 cd Job-Application-Tracker
 ```
 
