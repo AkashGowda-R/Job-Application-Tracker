@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Application Details</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+            line-height: 1.5;
+        }
+
+        header {
+            background: #1e293b;
+            color: white;
+            padding: 18px 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 34px auto;
+            padding: 0 20px;
+        }
+
+        .page-heading {
+            margin-bottom: 22px;
+        }
+
+        .page-heading h2 {
+            margin: 0;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .page-heading p {
+            margin: 5px 0 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .details-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+            overflow: hidden;
+        }
+
+        .details-header {
+            padding: 24px 26px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f8fafc;
+        }
+
+        .details-header h3 {
+            margin: 0 0 5px;
+            font-size: 22px;
+            color: #111827;
+        }
+
+        .details-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .details-content {
+            padding: 26px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .info-value {
+            color: #1f2937;
+            font-size: 14px;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .status-badge,
+        .priority-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-applied {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status-interview {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .status-offer {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .status-withdrawn {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .priority-high {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .priority-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .priority-low {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .status-section {
+            margin-top: 24px;
+            padding: 18px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+        }
+
+        .status-section h4 {
+            margin: 0 0 12px;
+            font-size: 14px;
+            color: #1f2937;
+        }
+
+        .status-form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .status-form select {
+            height: 38px;
+            min-width: 160px;
+            padding: 7px 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 13px;
+            background: white;
+            color: #1f2937;
+            outline: none;
+        }
+
+        .status-form select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .status-form button {
+            height: 38px;
+            padding: 0 14px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .status-form button:hover {
+            background: #1d4ed8;
+        }
+
+        .additional-info {
+            margin-top: 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        .info-block {
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .info-block h4 {
+            margin: 0 0 8px;
+            color: #64748b;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .info-block p {
+            margin: 0;
+            color: #1f2937;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .job-link {
+            color: #2563eb;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .job-link:hover {
+            text-decoration: underline;
+        }
+
+        .notes {
+            background: #fffbeb;
+            border-color: #fde68a;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .action-button,
+        .actions button,
+        .dashboard-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            padding: 0 15px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.15s ease;
+        }
+
+        .edit-button {
+            background: #2563eb;
+            color: white;
+        }
+
+        .edit-button:hover {
+            background: #1d4ed8;
+        }
+
+        .delete-button {
+            border: 1px solid #fecaca;
+            background: #fff1f2;
+            color: #b91c1c;
+        }
+
+        .delete-button:hover {
+            background: #fee2e2;
+        }
+
+        .dashboard-button {
+            margin-top: 12px;
+            background: #475569;
+            color: white;
+        }
+
+        .dashboard-button:hover {
+            background: #334155;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 16px 20px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            .container {
+                margin: 24px auto;
+                padding: 0 14px;
+            }
+
+            .page-heading h2 {
+                font-size: 24px;
+            }
+
+            .details-header,
+            .details-content {
+                padding: 20px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-form {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .status-form select,
+            .status-form button {
+                width: 100%;
+            }
+
+            .actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action-button,
+            .actions button,
+            .dashboard-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Job Application Tracker</h1>
+    </header>
+
+    <div class="container">
+
+        <div class="page-heading">
+            <h2>Application Details</h2>
+            <p>Review and manage this job application.</p>
+        </div>
+
+        <div class="details-card">
+
+            <div class="details-header">
+                <h3>{{ application['job_title'] }}</h3>
+                <p>{{ application['company'] }}{% if application['location'] %} · {{ application['location'] }}{% endif %}</p>
+            </div>
+
+            <div class="details-content">
+
+                <div class="info-grid">
+
+                    <div class="info-item">
+                        <span class="info-label">Company</span>
+                        <span class="info-value">{{ application['company'] }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Job Title</span>
+                        <span class="info-value">{{ application['job_title'] }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Location</span>
+                        <span class="info-value">{{ application['location'] }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Priority</span>
+                        <span class="priority-badge priority-{{ application['priority']|lower }}">
+                            {{ application['priority'] }}
+                        </span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Current Status</span>
+                        <span class="status-badge status-{{ application['status']|lower }}">
+                            {{ application['status'] }}
+                        </span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Application Date</span>
+                        <span class="info-value">{{ application['application_date'] }}</span>
+                    </div>
+
+                </div>
+
+                <div class="status-section">
+                    <h4>Update Application Status</h4>
+
+                    <form
+                        method="POST"
+                        action="/application/{{ application['id'] }}/status"
+                        class="status-form"
+                    >
+
+                        <select name="status" id="status">
+                            <option value="Applied" {% if application['status'] == 'Applied' %}selected{% endif %}>
+                                Applied
+                            </option>
+
+                            <option value="Interview" {% if application['status'] == 'Interview' %}selected{% endif %}>
+                                Interview
+                            </option>
+
+                            <option value="Offer" {% if application['status'] == 'Offer' %}selected{% endif %}>
+                                Offer
+                            </option>
+
+                            <option value="Rejected" {% if application['status'] == 'Rejected' %}selected{% endif %}>
+                                Rejected
+                            </option>
+
+                            <option value="Withdrawn" {% if application['status'] == 'Withdrawn' %}selected{% endif %}>
+                                Withdrawn
+                            </option>
+                        </select>
+
+                        <button type="submit">Update Status</button>
+
+                    </form>
+                </div>
+
+                <div class="additional-info">
+
+                    <div class="info-block">
+                        <h4>Follow-up Date</h4>
+                        <p>{{ application['follow_up_date'] }}</p>
+                    </div>
+
+                    <div class="info-block">
+                        <h4>Job Posting</h4>
+                        <p>
+                            <a
+                                href="{{ application['job_url'] }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="job-link"
+                            >
+                                Open Job Posting ↗
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="info-block notes">
+                        <h4>Notes</h4>
+                        <p>{{ application['notes'] if application['notes'] else 'No notes added.' }}</p>
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <a
+                        href="/application/{{ application['id'] }}/edit"
+                        class="action-button edit-button"
+                    >
+                        Edit Application
+                    </a>
+
+                    <form
+                        method="POST"
+                        action="/application/{{ application['id'] }}/delete"
+                        onsubmit="return confirm('Are you sure you want to delete this application?');"
+                    >
+                        <button type="submit" class="action-button delete-button">
+                            Delete Application
+                        </button>
+                    </form>
+
+                </div>
+
+                <a href="/" class="dashboard-button">
+                    ← Back to Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Application - Job Application Tracker</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+            line-height: 1.5;
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px 40px;
+        }
+
+        .page-header {
+            margin-bottom: 22px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .form-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+        }
+
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            background: #ffffff;
+            color: #1f2937;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        input,
+        select {
+            min-height: 44px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        button,
+        .cancel-button {
+            min-height: 44px;
+            padding: 10px 20px;
+            border-radius: 7px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            border: 1px solid #2563eb;
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+        }
+
+        .cancel-button {
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            background: #ffffff;
+        }
+
+        .cancel-button:hover {
+            background: #f8fafc;
+        }
+
+        @media (max-width: 700px) {
+            .page {
+                margin: 25px auto;
+                padding: 0 15px 30px;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 18px;
+            }
+
+            .buttons {
+                flex-direction: column-reverse;
+            }
+
+            button,
+            .cancel-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="page">
+
+        <div class="page-header">
+            <h1>Edit Application</h1>
+            <p>Update the details of this job application.</p>
+        </div>
+
+        <div class="form-card">
+
+            <form method="POST">
+
+                <section class="section">
+                    <h2 class="section-title">Application Information</h2>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="company">Company Name <span class="required">*</span></label>
+                            <input type="text" id="company" name="company"
+                                   value="{{ application['company'] }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="job_title">Job Title <span class="required">*</span></label>
+                            <input type="text" id="job_title" name="job_title"
+                                   value="{{ application['job_title'] }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" name="location"
+                                   value="{{ application['location'] }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="application_date">Application Date</label>
+                            <input type="date" id="application_date" name="application_date"
+                                   value="{{ application['application_date'] }}">
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2 class="section-title">Application Tracking</h2>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="status">Application Status</label>
+                            <select id="status" name="status">
+                                <option value="Applied" {% if application['status'] == 'Applied' %}selected{% endif %}>
+                                    Applied
+                                </option>
+                                <option value="Interview" {% if application['status'] == 'Interview' %}selected{% endif %}>
+                                    Interview
+                                </option>
+                                <option value="Offer" {% if application['status'] == 'Offer' %}selected{% endif %}>
+                                    Offer
+                                </option>
+                                <option value="Rejected" {% if application['status'] == 'Rejected' %}selected{% endif %}>
+                                    Rejected
+                                </option>
+                                <option value="Withdrawn" {% if application['status'] == 'Withdrawn' %}selected{% endif %}>
+                                    Withdrawn
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="priority">Priority</label>
+                            <select id="priority" name="priority">
+                                <option value="High" {% if application['priority'] == 'High' %}selected{% endif %}>
+                                    High
+                                </option>
+                                <option value="Medium" {% if application['priority'] == 'Medium' %}selected{% endif %}>
+                                    Medium
+                                </option>
+                                <option value="Low" {% if application['priority'] == 'Low' %}selected{% endif %}>
+                                    Low
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="follow_up_date">Follow-up Date</label>
+                            <input type="date" id="follow_up_date" name="follow_up_date"
+                                   value="{{ application['follow_up_date'] }}">
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2 class="section-title">Additional Information</h2>
+
+                    <div class="form-grid">
+
+                        <div class="form-group full-width">
+                            <label for="job_url">Job URL</label>
+                            <input type="url" id="job_url" name="job_url"
+                                   value="{{ application['job_url'] }}">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="notes">Notes</label>
+                            <textarea id="notes" name="notes">{{ application['notes'] }}</textarea>
+                        </div>
+
+                    </div>
+                </section>
+
+                <div class="buttons">
+                    <a href="/" class="cancel-button">Cancel</a>
+                    <button type="submit">Save Changes</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

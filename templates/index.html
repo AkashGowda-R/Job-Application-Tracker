@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Application Tracker</title>
+
+    <style>
+        /* =========================
+           General Styles
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+            line-height: 1.5;
+        }
+
+        header {
+            background: #1e293b;
+            color: white;
+            padding: 18px 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 0.2px;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+
+        /* =========================
+           Dashboard Top Bar
+        ========================= */
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .page-heading h2 {
+            margin: 0;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .page-heading p {
+            margin: 5px 0 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .top-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+
+        /* =========================
+           Search and Filter
+        ========================= */
+
+        .search-panel {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .search-form input,
+        .search-form select {
+            height: 38px;
+            padding: 8px 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 13px;
+            background: white;
+            color: #1f2937;
+            outline: none;
+        }
+
+        .search-form input {
+            width: 280px;
+        }
+
+        .search-form input:focus,
+        .search-form select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .search-form button,
+        .clear-btn,
+        .add-button {
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 14px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.15s ease;
+        }
+
+        .search-form button {
+            background: #2563eb;
+            color: white;
+            border: none;
+        }
+
+        .search-form button:hover,
+        .add-button:hover {
+            background: #1d4ed8;
+        }
+
+        .clear-btn {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .clear-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .add-button {
+            background: #2563eb;
+            color: white;
+            width: fit-content;
+        }
+
+
+        /* =========================
+           Dashboard Statistic Cards
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+            min-height: 105px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #2563eb;
+        }
+
+        .card:nth-child(2)::before {
+            background: #f59e0b;
+        }
+
+        .card:nth-child(3)::before {
+            background: #3b82f6;
+        }
+
+        .card:nth-child(4)::before {
+            background: #f97316;
+        }
+
+        .card:nth-child(5)::before {
+            background: #16a34a;
+        }
+
+        .card:nth-child(6)::before {
+            background: #dc2626;
+        }
+
+        .card:nth-child(7)::before {
+            background: #64748b;
+        }
+
+        .card:nth-child(8)::before,
+        .card:nth-child(9)::before {
+            background: #7c3aed;
+        }
+
+        .card h4 {
+            color: #64748b;
+            margin: 0 0 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 28px;
+            color: #111827;
+        }
+
+
+        /* =========================
+           Section Cards
+        ========================= */
+
+        .table-container,
+        .follow-ups-section {
+            width: 100%;
+            background: white;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+            overflow-x: auto;
+            margin-bottom: 28px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #111827;
+        }
+
+        .section-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .follow-ups-section {
+            border-top: 4px solid #f59e0b;
+        }
+
+
+        /* =========================
+           Tables
+        ========================= */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 760px;
+        }
+
+        th,
+        td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        th {
+            color: #64748b;
+            background: #f8fafc;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .company-name,
+        .job-title {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .job-title {
+            font-weight: 500;
+        }
+
+        .muted {
+            color: #64748b;
+        }
+
+        .empty {
+            text-align: center;
+            color: #64748b;
+            padding: 40px 20px;
+        }
+
+
+        /* =========================
+           Priority Badges
+        ========================= */
+
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 9px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .priority-high {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .priority-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .priority-low {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+
+        /* =========================
+           Action Buttons
+        ========================= */
+
+        .actions {
+            white-space: nowrap;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+            transition: 0.15s ease;
+        }
+
+        .view-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .edit-btn {
+            background: #475569;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #334155;
+        }
+
+
+        /* =========================
+           Status Badges
+        ========================= */
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .status-applied {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status-interview {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .status-offer {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .status-withdrawn {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+
+        /* =========================
+           Follow-up Indicators
+        ========================= */
+
+        .follow-up-overdue {
+            display: inline-block;
+            color: #b91c1c;
+            background: #fee2e2;
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .follow-up-today {
+            display: inline-block;
+            color: #b45309;
+            background: #fef3c7;
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .follow-up-empty {
+            margin: 0;
+            padding: 22px;
+            text-align: center;
+            color: #64748b;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+
+        /* =========================
+           Responsive Design
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .top-bar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .top-actions {
+                align-items: stretch;
+            }
+
+            .search-panel {
+                width: 100%;
+            }
+
+            .search-form {
+                width: 100%;
+            }
+
+            .search-form input {
+                flex: 1;
+                min-width: 220px;
+            }
+
+            .add-button {
+                align-self: flex-start;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 16px 20px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            .container {
+                margin: 24px auto;
+                padding: 0 14px;
+            }
+
+            .page-heading h2 {
+                font-size: 24px;
+            }
+
+            .search-panel {
+                padding: 10px;
+            }
+
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-form input,
+            .search-form select,
+            .search-form button,
+            .clear-btn {
+                width: 100%;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .table-container,
+            .follow-ups-section {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================
+         Header
+    ========================= -->
+
+    <header>
+        <h1>Job Application Tracker</h1>
+    </header>
+
+
+    <!-- =========================
+         Main Container
+    ========================= -->
+
+    <div class="container">
+
+        <!-- =========================
+             Dashboard Top Bar
+        ========================= -->
+
+        <div class="top-bar">
+
+            <div class="page-heading">
+                <h2>Dashboard</h2>
+                <p>Track your job applications, interviews, offers, and follow-ups.</p>
+            </div>
+
+            <div class="top-actions">
+
+                <div class="search-panel">
+
+                    <form action="/" method="GET" class="search-form">
+
+                        <input
+                            type="text"
+                            name="search"
+                            placeholder="Search company, job title, or location"
+                            value="{{ request.args.get('search', '') }}"
+                        >
+
+                        <select name="status">
+                            <option value="">All Status</option>
+
+                            <option
+                                value="Applied"
+                                {% if request.args.get('status') == 'Applied' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Applied
+                            </option>
+
+                            <option
+                                value="Interview"
+                                {% if request.args.get('status') == 'Interview' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Interview
+                            </option>
+
+                            <option
+                                value="Offer"
+                                {% if request.args.get('status') == 'Offer' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Offer
+                            </option>
+
+                            <option
+                                value="Rejected"
+                                {% if request.args.get('status') == 'Rejected' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Rejected
+                            </option>
+
+                            <option
+                                value="Withdrawn"
+                                {% if request.args.get('status') == 'Withdrawn' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Withdrawn
+                            </option>
+
+                        </select>
+
+                        <button type="submit">Search</button>
+
+                        <a href="/" class="clear-btn">Clear</a>
+
+                    </form>
+
+                </div>
+
+                <a href="/add" class="add-button">+ Add New Application</a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             Dashboard Statistics
+        ========================= -->
+
+        <div class="cards">
+
+            <div class="card">
+                <h4>Total Applications</h4>
+                <h3>{{ total_applications }}</h3>
+            </div>
+
+            <div class="card">
+                <h4>Follow-ups Due</h4>
+                <h3>{{ follow_ups_due }}</h3>
+            </div>
+
+            <div class="card">
+                <h4>Applied</h4>
+                <h3>{{ applied }}</h3>
+            </div>
+
+            <div class="card">
+                <h4>Interviews</h4>
+                <h3>{{ interviews }}</h3>
+            </div>
+
+            <div class="card">
+                <h4>Offers</h4>
+                <h3>{{ offers }}</h3>
+            </div>
+
+            <div class="card">
+                <h4>Rejected</h4>
+                <h3>{{ rejected }}</h3>
+            </div>
+
+            <div class="card">
+                <h4>Withdrawn</h4>
+                <h3>{{ withdrawn }}</h3>
+            </div>
+
+            <div class="card">
+                <h4>Interview Rate</h4>
+                <h3>{{ interview_rate }}%</h3>
+            </div>
+
+            <div class="card">
+                <h4>Offer Rate</h4>
+                <h3>{{ offer_rate }}%</h3>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             My Applications
+        ========================= -->
+
+        <div class="table-container">
+
+            <div class="section-header">
+                <div>
+                    <h2>My Applications</h2>
+                    <p>Your tracked job applications</p>
+                </div>
+            </div>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Job Title</th>
+                        <th>Application Date</th>
+                        <th>Location</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    {% if applications %}
+
+                        {% for application in applications %}
+
+                            <tr>
+
+                                <td class="company-name">
+                                    {{ application['company'] }}
+                                </td>
+
+                                <td class="job-title">
+                                    {{ application['job_title'] }}
+                                </td>
+
+                                <td class="muted">
+                                    {{ application['application_date'] }}
+                                </td>
+
+                                <td class="muted">
+                                    {{ application['location'] }}
+                                </td>
+
+                                <td>
+                                    <span class="priority-badge priority-{{ application['priority']|lower }}">
+                                        {{ application['priority'] }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="status-badge status-{{ application['status']|lower }}">
+                                        {{ application['status'] }}
+                                    </span>
+                                </td>
+
+                                <td class="actions">
+                                    <a
+                                        href="/application/{{ application['id'] }}"
+                                        class="action-btn view-btn"
+                                    >
+                                        View
+                                    </a>
+
+                                    <a
+                                        href="/application/{{ application['id'] }}/edit"
+                                        class="action-btn edit-btn"
+                                    >
+                                        Edit
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+                            <td colspan="7" class="empty">
+                                No applications found. Add your first application!
+                            </td>
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =========================
+             Follow-ups Due
+        ========================= -->
+
+        <div class="follow-ups-section">
+
+            <div class="section-header">
+                <div>
+                    <h2>Follow-ups Due</h2>
+                    <p>Applications that need your attention today</p>
+                </div>
+            </div>
+
+            {% if due_applications %}
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Job Title</th>
+                            <th>Follow-up Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for application in due_applications %}
+
+                            <tr>
+
+                                <td class="company-name">
+                                    {{ application['company'] }}
+                                </td>
+
+                                <td class="job-title">
+                                    {{ application['job_title'] }}
+                                </td>
+
+                                <td>
+
+                                    {% if application['follow_up_date'] < today %}
+
+                                        <span class="follow-up-overdue">
+                                            {{ application['follow_up_date'] }} - Overdue
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="follow-up-today">
+                                            {{ application['follow_up_date'] }} - Due Today
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+                                    <span class="status-badge status-{{ application['status']|lower }}">
+                                        {{ application['status'] }}
+                                    </span>
+                                </td>
+
+                                <td class="actions">
+                                    <a
+                                        href="/application/{{ application['id'] }}"
+                                        class="action-btn view-btn"
+                                    >
+                                        View
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            {% else %}
+
+                <p class="follow-up-empty">No follow-ups due. You're all caught up!</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
